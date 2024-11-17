@@ -1,0 +1,25 @@
+{
+  "name": "nem-learning",
+  "version": "1.0.0",
+  "description": "For Learning Purposes",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AAB007209/NEM-Learning.git"
+  },
+  "author": "Akash A Benki",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/AAB007209/NEM-Learning/issues"
+  },
+  "homepage": "https://github.com/AAB007209/NEM-Learning#readme",
+  "devDependencies": {
+    "nodemon": "^3.1.7"
+  },
+  "dependencies": {
+    "express": "^4.21.1"
+  }
+}
