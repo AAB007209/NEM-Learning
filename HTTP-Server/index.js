@@ -1,5 +1,7 @@
 const http = require("http");
 const fs = require("fs");
+const url = require("url");
+
 const PORT = 8082;
 
 // - The Callback function runs whenever we have a request
@@ -10,18 +12,25 @@ const myServer = http.createServer((req, res) => {
     // console.log(req.headers);
     // res.end("Hello from Server");
 
+    if (req.url === "/favicon.ico") return res.end();
+
     // req.url -> gives the path from which the req was made
     const log = `${Date.now()}: ${req.url} New Req Received\n`;
 
+    const myUrl = url.parse(req.url, true);
+    console.log(myUrl);
+
     // Async - Non-Blocking Operation
     fs.appendFile("log.txt", log, (err, data) => {
-        switch (req.url) {
+        switch (myUrl.pathname) {
             case "/":
                 res.end("HomePage");
                 break;
 
+            // http://localhost:8082/about?myname=Akash+A+Benki (+ => Considered as space in URL)
             case "/about":
-                res.end("I am Akash A Benki");
+                const userName = myUrl.query.myname;
+                res.end(`Hi, ${userName}`);
                 break;
 
             default:
