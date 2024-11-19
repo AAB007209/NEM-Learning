@@ -7,7 +7,10 @@ const PORT = 8082;
 // - The Callback function runs whenever we have a request
 // - req Object contains all the data and metadata from the client side.
 // - We can send the response to the Client using the res
+
+// Create Server
 const myServer = http.createServer((req, res) => {
+
     // console.log("New Request Received");
     // console.log(req.headers);
     // res.end("Hello from Server");
@@ -15,32 +18,60 @@ const myServer = http.createServer((req, res) => {
     if (req.url === "/favicon.ico") return res.end();
 
     // req.url -> gives the path from which the req was made
-    const log = `${Date.now()}: ${req.url} New Req Received\n`;
+    const log = `${Date.now()}: ${req.method} ${req.url} New Req Received\n`;
 
+    // Log the request asynchronously (non-blocking)
+    fs.appendFile("log.txt", log, (err) => {
+        if (err) console.error("Error writing to log file:", err);
+    });
+
+    // Parse URL
     const myUrl = url.parse(req.url, true);
-    console.log(myUrl);
+    // console.log(myUrl);
 
-    // Async - Non-Blocking Operation
-    fs.appendFile("log.txt", log, (err, data) => {
-        switch (myUrl.pathname) {
-            case "/":
+    // Handle Routes
+    switch (myUrl.pathname) {
+        case "/":
+            if (req.method === "GET") {
                 res.end("HomePage");
-                break;
+            }
+            break;
 
+        case "/about":
             // http://localhost:8082/about?myname=Akash+A+Benki (+ => Considered as space in URL)
-            case "/about":
-                const userName = myUrl.query.myname;
-                res.end(`Hi, ${userName}`);
-                break;
+            const userName = myUrl.query.myname || "Guest";
+            res.end(`Hi, ${userName}`);
+            break;
 
-            default:
-                res.end("404: Not Found");
-        }
-    })
+        case "/signUp":
+            try {
+                if (req.method === "GET") {
+                    res.end("This is a signup Form");
+                } else if (req.method === "POST") {
+                    // Simulate DB Query or operation
+                    res.end("Success");
+                }
+            } catch (error) {
+                console.error("Error:", error);
+                res.statusCode = 500;
+                res.end("Internal Server Error");
+            }
+            break;
 
+        default:
+            res.statusCode = 404;
+            res.end("404: Not Found");
+    }
 });
 
+// Start the server
 myServer.listen(PORT, () => {
-    console.log(`The Server is running on: ${PORT}`)
-})
+    console.log(`The Server is running on: ${PORT}`);
+});
 
+/*
+We can have if else if condition for each HTTP method for all url path's required.
+This will be more hectic to manage and understand for larger projects.
+
+Which is why Express Framework comes into picture to make things simple for the HTTP methods.
+*/

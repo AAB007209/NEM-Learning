@@ -35,3 +35,10 @@
 1731957679657: /favicon.ico New Req Received
 1731957723497: /about?myname=Akash New Req Received
 1731957736960: /about?myname=Akash+A+Benki New Req Received
+1732038938135: GET /signUp New Req Received
+1732038970555: GET /signUp New Req Received
+1732039076882: GET /signUp New Req Received
+1732039161071: GET /about New Req Received
+1732039169176: GET / New Req Received
+1732039182724: GET /signUp New Req Received
+1732039422510: GET /signUp New Req Received
