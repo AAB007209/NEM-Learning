@@ -8,8 +8,8 @@ const PORT = 8082;
 // - req Object contains all the data and metadata from the client side.
 // - We can send the response to the Client using the res
 
-// Create Server
-const myServer = http.createServer((req, res) => {
+// myHandler function for Creating Server
+function myHandler(res, req) {
 
     // console.log("New Request Received");
     // console.log(req.headers);
@@ -62,7 +62,9 @@ const myServer = http.createServer((req, res) => {
             res.statusCode = 404;
             res.end("404: Not Found");
     }
-});
+};
+
+const myServer = http.createServer(myHandler);
 
 // Start the server
 myServer.listen(PORT, () => {
@@ -74,4 +76,7 @@ We can have if else if condition for each HTTP method for all url path's require
 This will be more hectic to manage and understand for larger projects.
 
 Which is why Express Framework comes into picture to make things simple for the HTTP methods.
+
+- The myHandler function which we have written here by ourselves here will be given to us by the express framework
+
 */
