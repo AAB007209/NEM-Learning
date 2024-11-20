@@ -19,7 +19,7 @@ GET /users - HTML Document Render - Throws HTML [Done]
 
 **DELETE** /api/users/2 - Delete the user with ID 2
 
-* Referenced Links
+### Mock Data Resource
 
 **Mockaroo** - https://www.mockaroo.com (MOCK DATA)
 
