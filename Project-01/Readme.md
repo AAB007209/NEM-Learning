@@ -27,5 +27,7 @@ GET /users - HTML Document Render - Throws HTML [Done]
 
 * Creating Hybrid Server
 1. We can also make mobile users to access this data so we will have another path for the same.
+
 => /api/users -> This means the Mobile API (JSON) is being used and 
+
 => /users is for HTML Document rendering
