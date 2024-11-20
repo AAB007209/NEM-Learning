@@ -1,10 +1,14 @@
 const express = require("express");
+const fs = require("fs");
 
 // Importing the users Data
-const users = require("./MOCK_DATA.json");
+let users = require("./MOCK_DATA.json");
 
 const app = express();
 const port = 8000;
+
+// Middleware - Plugin
+app.use(express.urlencoded({ extended: false }));
 
 // Routes
 
@@ -36,21 +40,49 @@ app.route("/api/users/:id")
         const user = users.find((user) => user.id === id);
         return res.json(user);
     })
-    .patch((res, req) => {
+    .patch((req, res) => {
         // TODO: Edit the user with the ID
+        const userId = Number(req.params.id);
+        // console.log(userId);
+        const userIndex = users.findIndex((user) => user.id === userId);
 
-        return res.json({ status: "pending" });
+        if (userIndex === -1) {
+            return res.status(404).json({ error: "User not found" });
+        }
+
+        // Update the user's data with the request body
+        users[userIndex] = {
+            ...users[userIndex], // Keep existing fields
+            ...req.body, // Overwrite fields with new data
+        };
+
+        return res.json({ status: "success", user: users[userIndex] });
     })
     .delete((req, res) => {
         // TODO: Delete the user with the ID
+        const userId = Number(req.params.id);
+        const userIndex = users.findIndex((user) => user.id === userId);
 
-        return res.json({ status: "pending" });
+        if (userIndex === -1) {
+            return res.status(404).json({ error: "User not found" });
+        }
+
+        const deletingUser = users[userIndex];
+        users.splice(userIndex, 1);
+        // users = users.filter((user) => user.id !== userIndex);
+
+        return res.json({ status: "Success", DeletedUser: deletingUser });
     })
 
 app.post("/api/users", (req, res) => {
     // TODO: Create new user
+    const body = req.body;
+    // console.log(body);
 
-    return res.json({ status: "pending" });
+    users.push({ ...body, id: users.length + 1 });
+    fs.writeFile("./MOCK_DATA.json", JSON.stringify(users), (err, data) => {
+        return res.json({ status: "success", id: users.length });
+    });
 })
 
 // app.patch("/api/users/:id", (req, res) => {
